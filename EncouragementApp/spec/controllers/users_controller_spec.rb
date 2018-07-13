@@ -14,7 +14,7 @@ RSpec.describe UsersController, type: :controller do
 
   describe 'GET #new' do
     it 'renders a new user page' do
-      get :new#, user:{}
+      get :new
 
       expect(response).to render_template('new')
       expect(response).to have_http_status(200)
@@ -37,7 +37,6 @@ RSpec.describe UsersController, type: :controller do
 
   describe 'GET #show' do
     it 'renders the user\'s profile page' do
-      # user.save!
       get :show, params: { id: user.id }
       expect(response).to render_template(:show)
       expect(response).to have_http_status(200)
