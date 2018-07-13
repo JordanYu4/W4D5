@@ -4,7 +4,7 @@ require 'shoulda/matchers'
 
 RSpec.describe User, type: :model do
 
-  subject(:user) { User.new(username: 'bob', password: '123456') }
+  subject(:user) { User.create!(username: 'bob', password: '123456') }
 
   it { should validate_uniqueness_of(:username) }
   it { should validate_presence_of(:username) }
@@ -30,6 +30,7 @@ RSpec.describe User, type: :model do
   end
 
   describe '::find_by_credentials' do
+    subject(:bob) { User.create!(username: 'bob', password: '123456')}
     it 'returns nil if credentials do not match user' do
       expect(User.find_by_credentials('Chad', '1234567')).to be_nil
     end
@@ -39,7 +40,9 @@ RSpec.describe User, type: :model do
     end
 
     it 'returns user if credentials match user' do
-      expect(User.find_by_credentials('bob', '123456')).to be(user)
+      bob.save!
+      
+      expect(User.find_by_credentials('bob', '123456')).to eq(bob)
     end
   end
 
